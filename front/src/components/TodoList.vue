@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     axios
-      .get('https://kenzo-todo-back.herokuapp.com/v1/todos')
+      .get(`${process.env.API_ENDPOINT}/v1/todos`)
       .then(res => {
         this.todos = res.data;
       })
@@ -71,7 +71,7 @@ export default {
   methods: {
     createTodo: function() {
       axios
-        .post('https://kenzo-todo-back.herokuapp.com/v1/todos', this.todo)
+        .post(`${process.env.API_ENDPOINT}/v1/todos`, this.todo)
         .then(res => {
           this.updateTodos();
           this.todo.title = '';
@@ -79,21 +79,21 @@ export default {
     },
     updateTodos: function() {
       axios
-        .get('https://kenzo-todo-back.herokuapp.com/v1/todos')
+        .get(`${process.env.API_ENDPOINT}/v1/todos`)
         .then(res => {
           this.todos = res.data;
         })
     },
     destroyTodo: function(id) {
       axios
-        .delete(`https://kenzo-todo-back.herokuapp.com/v1/todos/${id}`)
+        .delete(`${process.env.API_ENDPOINT}/v1/todos/${id}`)
         .then(res => {
           this.updateTodos();
         })
     },
     updateTodo: function(id) {
       axios
-        .patch(`https://kenzo-todo-back.herokuapp.com/v1/todos/${id}`, this.editTodo)
+        .patch(`${process.env.API_ENDPOINT}/v1/todos/${id}`, this.editTodo)
         .then(res => {
           this.modalActive = false;
           this.updateTodos();
