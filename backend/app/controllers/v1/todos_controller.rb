@@ -1,4 +1,10 @@
 class V1::TodosController < ApplicationController
+
+  def index
+    todos = Todo.order(:id)
+    render json: todos
+  end
+
   def create
     todo = Todo.new(todo_params)
     if todo.save

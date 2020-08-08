@@ -8,6 +8,10 @@
         Add
       </a>
     </p>
+    <ul v-for="todo in todos" :key="todo.id">
+      <li>{{ todo.title }}</li>
+    </ul>
+
   </div>
 </template>
 
@@ -19,10 +23,18 @@ export default {
   name: 'TodoList',
   data() {
     return {
+      todos: [],
       todo: {
         title: ''
       }
     }
+  },
+  mounted() {
+    axios
+      .get('http://localhost:5000/v1/todos')
+      .then(res => {
+        this.todos = res.data;
+      })
   },
   methods: {
     createTodo: function() {
