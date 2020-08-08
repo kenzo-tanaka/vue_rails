@@ -1,5 +1,6 @@
 class V1::TodosController < ApplicationController
-
+  before_action :set_todo, only: :destroy
+  
   def index
     todos = Todo.order(:id)
     render json: todos
@@ -14,8 +15,16 @@ class V1::TodosController < ApplicationController
     end
   end
 
+  def destroy
+    @todo.destroy
+  end
+
   private
     def todo_params
       params.require(:todo).permit(:title)
+    end
+
+    def set_todo
+      @todo = Todo.find(params[:id])
     end
 end
