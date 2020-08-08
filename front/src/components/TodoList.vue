@@ -101,7 +101,6 @@ export default {
     },
     openModal: function(todo) {
       this.editTodo = todo;
-      console.log(this.editTodo);
       this.modalActive = true;
     },
     closeModal: function() {
