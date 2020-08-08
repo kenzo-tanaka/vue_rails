@@ -14,11 +14,31 @@
       <ul v-for="todo in todos" :key="todo.id">
         <li>
           {{ todo.title }}
-          <button>Edit</button>
+          <button @click="openModal(todo)">Edit</button>
           <button @click="destroyTodo(todo.id)">Delete</button>
         </li>
       </ul>
     </div>
+
+    <!-- Modal -->
+    <!-- TODO: 別コンポーネントに切り出したい -->
+    <div v-bind:class="{ 'is-active': modalActive }" class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="field is-grouped mt-6">
+          <p class="control is-expanded">
+            <input v-model="editTodo.title" class="input" type="text">
+          </p>
+          <p class="control">
+            <a class="button is-link" @click="updateTodo(editTodo.id)">
+              update
+            </a>
+          </p>
+        </div>
+      </div>
+      <button @click="closeModal" class="modal-close is-large" aria-label="close"></button>
+    </div>
+
   </div>
 </template>
 
@@ -33,7 +53,12 @@ export default {
       todos: [],
       todo: {
         title: ''
-      }
+      },
+      modalActive: false,
+      editTodo: {
+        id: '',
+        title: ''
+      },
     }
   },
   mounted() {
@@ -65,6 +90,23 @@ export default {
         .then(res => {
           this.updateTodos();
         })
+    },
+    updateTodo: function(id) {
+      axios
+        .patch(`http://localhost:5000/v1/todos/${id}`, this.editTodo)
+        .then(res => {
+          this.modalActive = false;
+          this.updateTodos();
+        })
+    },
+    openModal: function(todo) {
+      this.editTodo = todo;
+      console.log(this.editTodo);
+      this.modalActive = true;
+    },
+    closeModal: function() {
+      this.editTodo = '';
+      this.modalActive = false;
     }
   }
 }
