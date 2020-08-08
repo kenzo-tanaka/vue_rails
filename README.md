@@ -1,6 +1,6 @@
 ```shell
 # FrontEnd
-$ cd fron
+$ cd front
 $ npm run dev
 ```
 
